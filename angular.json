@@ -10,7 +10,7 @@
           "style": "sass"
         },
         "@schematics/angular:application": {
-          "strict": true
+          "strict": false
         }
       },
       "root": "",
@@ -31,7 +31,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles.sass",
+              "./node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           },
