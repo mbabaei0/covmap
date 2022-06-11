@@ -22,6 +22,12 @@ export class ApiService {
     if (country) params = params.set('country', country)
     return this.http.get<IApiResponse<CovidStat[]>>(`${environment.apiUrl}/statistics`, { params })
   }
+  getHistory(country: string, date:string): Observable<IApiResponse<CovidStat[]>> {
+    let params = new HttpParams()
+                .append('country', country)
+                .append('day', date)
+    return this.http.get<IApiResponse<CovidStat[]>>(`${environment.apiUrl}/history`, { params })
+  }
 
   getLeafLeatCords(){
      return this.http.get('assets/leaflet-countries/countries.geo.json');
