@@ -7,14 +7,14 @@ import { ApiService } from '../../services/api.service';
 // can be passed by inputs
 const MAP_COLOR =  '#72cef066';
 const BORDER_COLOR =  'green';
-const HOVER_COLOR =  'blue';
+const HOVER_COLOR =  'red';
 @Component({
   selector: 'cov-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.sass']
 })
 export class MapComponent implements OnInit, OnChanges {
-  @Input() countryId: string = 'USA';
+  @Input() countryId: string;
   @Input() filter: Filter;
   @Input() data: CovidStat[];
 
@@ -46,12 +46,13 @@ export class MapComponent implements OnInit, OnChanges {
 
       if(featureLayer) this.paintFeature(featureLayer,this.getColor(d.percent))
     })
+    this.selectFeature(this.findFeatureLayerByCountryName(this.countryId));
   }
 
   ngOnInit(): void {
     this.apiService.getLeafLeatCords().subscribe(res => {
       this.layers = [this.createGeoJsonLayer(res)];
-      this.selectFeature(this.findFeatureLayerByCountryId(this.countryId));
+      this.selectFeature(this.findFeatureLayerByCountryName(this.countryId));
     })
   }
 
@@ -95,9 +96,9 @@ export class MapComponent implements OnInit, OnChanges {
   private highlightFeature(featureLayer) {
     if (featureLayer) {
       featureLayer.setStyle({
-        weight: 2,
+        weight: 3,
        //fillColor: BORDER_COLOR,
-       //  color: HOVER_COLOR,
+       color: HOVER_COLOR,
       });
 
       if (!leaf.Browser.ie && !leaf.Browser.opera12 && !leaf.Browser.edge) {
@@ -110,7 +111,7 @@ export class MapComponent implements OnInit, OnChanges {
       featureLayer.setStyle({
         weight: 1,
        fillColor: featureLayer.options.fillColor,
-         color: HOVER_COLOR,
+         color: 'blue',
       });
 
       if (!leaf.Browser.ie && !leaf.Browser.opera12 && !leaf.Browser.edge) {

@@ -21,6 +21,7 @@
     "@asymmetrik/ngx-leaflet": "^13.0.2",
     "echarts": "^5.3.2",
     "leaflet": "^1.8.0",
+    "ng-zorro-antd": "^13.2.2",
     "ngx-echarts": "^8.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
