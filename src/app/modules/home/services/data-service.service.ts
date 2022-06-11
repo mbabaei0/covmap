@@ -34,4 +34,8 @@ export class DataService {
 
   }
 
+  getCountryData(name: string) {
+    return this._stats.getValue().find(c=> c.country == name)
+  }
+
 }

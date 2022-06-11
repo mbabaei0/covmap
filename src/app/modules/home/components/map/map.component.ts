@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import * as leaf from 'leaflet';
 import { Filter } from '../../models/filter.type';
 import { CovidStat } from '../../models/stat.model';
@@ -106,7 +106,6 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
   private resetHighlight(featureLayer) {
-    console.log(featureLayer)
     if (featureLayer) {
       featureLayer.setStyle({
         weight: 1,
@@ -138,20 +137,13 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  // private resetHighlight(featureLayer) {
-  //   if (featureLayer) {
-  //     const geoJsonLayer = this.layers[0];
-
-  //     geoJsonLayer.resetStyle(featureLayer);
-  //   }
-  // }
 
   private selectFeature(featureLayer) {
     if (featureLayer !== this.selectedCountry) {
       this.resetHighlight(this.selectedCountry);
       this.highlightFeature(featureLayer);
       this.selectedCountry = featureLayer;
-      this.select.emit(featureLayer.feature.properties.name);
+      this.select.emit(featureLayer.feature.properties);
     }
   }
 
