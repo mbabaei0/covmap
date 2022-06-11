@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { IApiResponse } from '../../core/models/api-response.model';
+import { CovidStat } from '../models/stat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,10 @@ export class ApiService {
     if (search) params = params.set('search', search)
     return this.http.get<IApiResponse<string[]>>(`${environment.apiUrl}/countries`, { params })
   }
-  getStat(country?: string): Observable<IApiResponse<string[]>> {
+  getStat(country?: string): Observable<IApiResponse<CovidStat[]>> {
     let params = new HttpParams();
     if (country) params = params.set('country', country)
-    return this.http.get<IApiResponse<string[]>>(`${environment.apiUrl}/statistics`, { params })
+    return this.http.get<IApiResponse<CovidStat[]>>(`${environment.apiUrl}/statistics`, { params })
   }
 
   getLeafLeatCords(){

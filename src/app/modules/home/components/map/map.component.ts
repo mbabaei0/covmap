@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import * as leaf from 'leaflet';
+import { Filter } from '../../models/filter.type';
+import { CovidStat } from '../../models/stat.model';
 import { ApiService } from '../../services/api.service';
 
 // can be passed by inputs
@@ -11,8 +13,10 @@ const HOVER_COLOR =  'blue';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.sass']
 })
-export class MapComponent implements OnInit {
-  @Input() countryId: string = '';
+export class MapComponent implements OnInit, OnChanges {
+  @Input() countryId: string = 'USA';
+  @Input() filter: Filter;
+  @Input() data: CovidStat[];
 
   @Output() select: EventEmitter<any> = new EventEmitter();
 
@@ -34,6 +38,15 @@ export class MapComponent implements OnInit {
     maxBoundsViscosity: 1.0,
   };
   constructor(private apiService: ApiService) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!this.layers.length) return
+    this.data.forEach(d => {
+      // const featureLayer = this.layers.find(l => { console.log(l.feature.properties.name , d.country); return l.feature.properties.name == d.country})
+      const featureLayer = this.findFeatureLayerByCountryName(d.country)
+
+      if(featureLayer) this.paintFeature(featureLayer,this.getColor(d.percent))
+    })
+  }
 
   ngOnInit(): void {
     this.apiService.getLeafLeatCords().subscribe(res => {
@@ -49,15 +62,20 @@ export class MapComponent implements OnInit {
     }, 0);
   }
 
+  private getColor(value){
+    //value from 0 to 1
+    const hue=((1-(value/50))*120).toString(10);
+    return ["hsl(",hue,",100%,50%)"].join("");
+}
   private createGeoJsonLayer(cords: any) {
     return leaf.geoJSON(
       cords as any,
       {
         style: () => ({
           weight: 1,
-          fillColor: MAP_COLOR,
+          fillColor: 'black',
           fillOpacity: 1,
-          color: BORDER_COLOR,
+         //  color: BORDER_COLOR,
           opacity: 1,
         }),
         onEachFeature: (f, l) => {
@@ -78,13 +96,36 @@ export class MapComponent implements OnInit {
     if (featureLayer) {
       featureLayer.setStyle({
         weight: 2,
-        fillColor: BORDER_COLOR,
-        color: HOVER_COLOR,
+       //fillColor: BORDER_COLOR,
+       //  color: HOVER_COLOR,
       });
 
       if (!leaf.Browser.ie && !leaf.Browser.opera12 && !leaf.Browser.edge) {
         featureLayer.bringToFront();
       }
+    }
+  }
+  private resetHighlight(featureLayer) {
+    console.log(featureLayer)
+    if (featureLayer) {
+      featureLayer.setStyle({
+        weight: 1,
+       fillColor: featureLayer.options.fillColor,
+         color: HOVER_COLOR,
+      });
+
+      if (!leaf.Browser.ie && !leaf.Browser.opera12 && !leaf.Browser.edge) {
+        featureLayer.bringToFront();
+      }
+    }
+  }
+  private paintFeature(featureLayer, color) {
+    if (featureLayer) {
+      featureLayer.setStyle({
+        weight: 1,
+        fillColor: color,
+      });
+
     }
   }
 
@@ -97,13 +138,13 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private resetHighlight(featureLayer) {
-    if (featureLayer) {
-      const geoJsonLayer = this.layers[0];
+  // private resetHighlight(featureLayer) {
+  //   if (featureLayer) {
+  //     const geoJsonLayer = this.layers[0];
 
-      geoJsonLayer.resetStyle(featureLayer);
-    }
-  }
+  //     geoJsonLayer.resetStyle(featureLayer);
+  //   }
+  // }
 
   private selectFeature(featureLayer) {
     if (featureLayer !== this.selectedCountry) {
@@ -118,6 +159,14 @@ export class MapComponent implements OnInit {
     const layers = this.layers[0].getLayers();
     const featureLayer = layers.find(item => {
       return item.feature.id === id;
+    });
+
+    return featureLayer ? featureLayer : null;
+  }
+  private findFeatureLayerByCountryName(name) {
+    const layers = this.layers[0].getLayers();
+    const featureLayer = layers.find(item => {
+      return item.feature.properties.name === name || item.feature.id == name
     });
 
     return featureLayer ? featureLayer : null;

@@ -1,1 +1,16 @@
-<cov-map></cov-map>
+
+<div *ngIf="dataService.stats$ | async as stats; else loading">
+  Filter by : {{filter}}
+  <div>
+    <button (click)="filterData('deaths')">Deaths</button>
+    <button (click)="filterData('cases')">Cases</button>
+    <button (click)="filterData('tests')">Tests</button>
+  </div>
+  <cov-map [data]="stats" [filter]="filter" ></cov-map>
+
+  <li *ngFor="let item of stats">{{item.percent}} {{item.country}}</li>
+
+</div>
+
+
+<ng-template #loading>loading</ng-template>
