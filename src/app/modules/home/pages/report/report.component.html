@@ -13,6 +13,7 @@
   *ngIf="dataService.stats$ | async as stats; else loading"
   nz-row
   [nzGutter]="16"
+  style=" padding: 0 30px;"
 >
   <div nz-col class="gutter-row" [nzSpan]="14">
     <nz-card
@@ -66,19 +67,84 @@
       <i nz-icon nzType="sliders" nzTheme="twotone"></i>
     </ng-template>
   </div>
-  <div nz-col class="gutter-row" [nzSpan]="6">
-    <div class="inner-box">col-6</div>
-  </div>
-  <div nz-col class="gutter-row" [nzSpan]="6">
-    <div class="inner-box">col-6</div>
-  </div>
+  <nz-divider
+  nzText="Detail"
+  nzOrientation="left"
+></nz-divider>
+  <nz-col [nzSpan]="4">
+    <nz-card>
+      <nz-statistic
+        [nzValue]="(selecteStat.cases.total| number)!"
+        [nzTitle]="'All Cases'"
+        [nzPrefix]="prefixTplOne"
+        [nzSuffix]="''"
+        [nzValueStyle]="{ color: '#716F81' }"
+      ></nz-statistic>
+      <ng-template #prefixTplOne><i nz-icon nzType="frown" nzTheme="outline"></i></ng-template>
+    </nz-card>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-card>
+      <nz-statistic
+        [nzValue]="(selecteStat.deaths.total| number)!"
+        [nzTitle]="'Total Death'"
+        [nzPrefix]="prefixTpl2"
+        [nzSuffix]="''"
+        [nzValueStyle]="{ color: '#B97A95' }"
+      ></nz-statistic>
+      <ng-template #prefixTpl2><i nz-icon nzType="user-delete" nzTheme="outline"></i></ng-template>
+    </nz-card>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-card>
+      <nz-statistic
+        [nzValue]="(selecteStat.deaths.total| number)!"
+        [nzTitle]="'New Death'"
+        [nzPrefix]="prefixTpl2"
+        [nzSuffix]="''"
+        [nzValueStyle]="{ color: '#FF5B00' }"
+      ></nz-statistic>
+      <ng-template #prefixTpl2><i nz-icon nzType="user-delete" nzTheme="outline"></i></ng-template>
+    </nz-card>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-card>
+      <nz-statistic
+        [nzValue]="(selecteStat.cases.recovered| number)!"
+        [nzTitle]="'Recoverd'"
+        [nzPrefix]="prefixTpl3"
+        [nzSuffix]="''"
+        [nzValueStyle]="{ color: '#54BAB9' }"
+      ></nz-statistic>
+      <ng-template #prefixTpl3><i nz-icon nzType="user-switch" nzTheme="outline"></i></ng-template>
+    </nz-card>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-card>
+      <nz-statistic
+        [nzValue]="(selecteStat.cases.critical| number) || 'No Data'"
+        [nzTitle]="'Critical'"
+        [nzPrefix]="prefixTpl4"
+        [nzSuffix]="''"
+        [nzValueStyle]="{ color: '#CE7BB0' }"
+      ></nz-statistic>
+      <ng-template #prefixTpl4><i nz-icon [nzType]="'smile'" [nzTheme]="'outline'" [nzRotate]="180"></i></ng-template>
+    </nz-card>
+  </nz-col>
+  <nz-col [nzSpan]="4">
+    <nz-card>
+      <nz-statistic
+        [nzValue]="(selecteStat.cases.active| number)!"
+        [nzTitle]="'Active Case'"
+        [nzPrefix]="prefixTpl5"
+        [nzSuffix]="''"
+        [nzValueStyle]="{ color: '#6867AC' }"
+      ></nz-statistic>
+      <ng-template #prefixTpl5><i nz-icon [nzType]="'loading'"></i></ng-template>
+    </nz-card>
+  </nz-col>
 </div>
-
-<div>
-  Filter by : {{ filter }}
-  <div></div>
 
   <!-- <li *ngFor="let item of stats">{{ item.percent }} {{ item.country }}</li> -->
-</div>
 
 <ng-template #loading>loading</ng-template>

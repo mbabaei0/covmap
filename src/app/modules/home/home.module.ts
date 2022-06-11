@@ -18,7 +18,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 
 
 const ANT_IMPORTS = [
@@ -29,7 +29,8 @@ const ANT_IMPORTS = [
   NzButtonModule,
   NzIconModule,
   NzSelectModule,
-  NzDatePickerModule
+  NzDatePickerModule,
+  NzStatisticModule
 ]
 @NgModule({
   declarations: [

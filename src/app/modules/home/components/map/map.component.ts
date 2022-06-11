@@ -37,27 +37,31 @@ export class MapComponent implements OnInit, OnChanges {
     ),
     maxBoundsViscosity: 1.0,
   };
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService , private cdr: ChangeDetectorRef) { }
   ngOnChanges(changes: SimpleChanges): void {
     if(!this.layers.length) return
+    this.paintMap();
+    this.selectFeature(this.findFeatureLayerByCountryName(this.countryId));
+  }
+
+  paintMap(){
     this.data.forEach(d => {
       // const featureLayer = this.layers.find(l => { console.log(l.feature.properties.name , d.country); return l.feature.properties.name == d.country})
       const featureLayer = this.findFeatureLayerByCountryName(d.country)
-
       if(featureLayer) this.paintFeature(featureLayer,this.getColor(d.percent))
     })
-    this.selectFeature(this.findFeatureLayerByCountryName(this.countryId));
   }
 
   ngOnInit(): void {
     this.apiService.getLeafLeatCords().subscribe(res => {
       this.layers = [this.createGeoJsonLayer(res)];
       this.selectFeature(this.findFeatureLayerByCountryName(this.countryId));
+      this.paintMap()
     })
   }
 
   mapReady(map: leaf.Map) {
-    map.addControl(leaf.control.zoom({ position: 'topright' }));
+    map.addControl(leaf.control.zoom({ position: 'topleft' }));
     setTimeout(() => {
       map.invalidateSize();
     }, 0);
