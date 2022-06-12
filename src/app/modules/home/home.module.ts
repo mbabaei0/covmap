@@ -20,7 +20,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 const ANT_IMPORTS = [
   NzPageHeaderModule,
@@ -32,7 +33,9 @@ const ANT_IMPORTS = [
   NzSelectModule,
   NzDatePickerModule,
   NzStatisticModule,
-  NzEmptyModule
+  NzEmptyModule,
+  NzSkeletonModule,
+  NzAvatarModule
 ]
 @NgModule({
   declarations: [

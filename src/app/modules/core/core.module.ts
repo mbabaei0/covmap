@@ -6,12 +6,12 @@ import { HeaderInterceptor } from './interceptors/header.interceptor';
 
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
-import { FormsModule } from '@angular/forms';
-
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 const ANT_IMPORTS = [
   NzLayoutModule,
-  NzPageHeaderModule
+  NzPageHeaderModule,
+  NzSpinModule
 ]
 @NgModule({
   declarations: [],

@@ -1,7 +1,15 @@
 <nz-layout>
   <!-- <nz-header>  </nz-header> -->
   <nz-layout>
-    <nz-content><router-outlet></router-outlet></nz-content>
+    <nz-content>
+      <router-outlet> </router-outlet>
+      <ng-container *ngIf="loadingRouteConfig">
+
+        <div class="box-loading">
+          <nz-spin nzSimple></nz-spin>
+        </div>
+      </ng-container>
+    </nz-content>
   </nz-layout>
   <nz-footer>Developed by : Mohammad Babaei</nz-footer>
 </nz-layout>
