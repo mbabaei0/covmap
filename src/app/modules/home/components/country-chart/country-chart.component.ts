@@ -16,13 +16,13 @@ export class CountryChartComponent implements OnInit, AfterViewInit, OnDestroy, 
   option: any = {};
   echartsInstance;
 
-  chartAxisTextColor = 'red';
-  chartAxisLineColor = 'green';
-  chartAxisSplitLine = '#839AA8';
-  chartInnerLineColor = '#D3EBCD';
-  chartLineBottomShadowColor = '#635666';
-  chartGradientFrom = '#635666';
-  chartGradientTo = '#AEDBCE';
+  chartAxisTextColor = 'rgba(0, 0, 0, 0.45)';
+  chartAxisLineColor = 'rgba(0, 0, 0, 0.06)';
+  chartAxisSplitLine = 'rgba(0, 0, 0, 0.06)';
+  chartInnerLineColor = 'rgba(0, 0, 0, 0.03)';
+  chartLineBottomShadowColor = 'rgba(0, 0, 0, 0.03)';
+  chartGradientFrom = '#40a9ff';
+  chartGradientTo = 'rgb(230, 247, 255)';
 
 
   constructor() { }
